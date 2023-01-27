@@ -38,6 +38,7 @@ To migrate to the latest MDX, see [§ Migrating from v1 to v2][migation-v2].
     *   [`` Expected `jsxs` given to `evaluate` ``](#expected-jsxs-given-to-evaluate)
 *   [Problems writing MDX](#problems-writing-mdx)
     *   [`Could not parse import/exports with acorn: $error`](#could-not-parse-importexports-with-acorn-error)
+    *   [`Could not parse import/exports with acorn: SyntaxError: Unexpected token`](#could-not-parse-importexports-with-acorn-syntaxerror-unexpected-token)
     *   [``Unexpected `$type` in code: only import/exports are supported``](#unexpected-type-in-code-only-importexports-are-supported)
     *   [`` Unexpected end of file in expression, expected a corresponding closing brace for `{` ``](#unexpected-end-of-file-in-expression-expected-a-corresponding-closing-brace-for-)
     *   [`Could not parse expression with acorn: $error`](#could-not-parse-expression-with-acorn-error)
@@ -206,6 +207,19 @@ If you want the word import or export, make sure it’s not at the start of a
 paragraph.
 If you do want an import or export statement, please make sure that it’s valid
 JavaScript.
+
+### `Could not parse import/exports with acorn: SyntaxError: Unexpected token`
+
+It occurs when the keywords `import` or `export` are found at the start of a
+line but include characters reserved for Typescript.
+An example is:
+
+```mdx chrome=no
+export const data: TableData[] = [{a:"b"}]
+```
+
+The reason for this error is that the parser is expecting a JavaScript import
+or export statement.  Adding a type declaration introduces invalid characters.
 
 ### ``Unexpected `$type` in code: only import/exports are supported``
 
